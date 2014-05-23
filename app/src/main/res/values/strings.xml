@@ -4,5 +4,8 @@
     <string name="app_name">LastFM RGR</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="artists">Artists</string>
+    <string name="tracks">Tracks</string>
+    <string name="events">Events</string>
 
 </resources>

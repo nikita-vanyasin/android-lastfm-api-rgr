@@ -8,6 +8,8 @@ import android.widget.TabHost;
 
 public class MainActivity extends Activity {
 
+    private TabHost tabHost;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,15 +19,31 @@ public class MainActivity extends Activity {
           //...
         }
 
-        initTabWidget();
+        initTabs();
+
     }
 
-    private void initTabWidget()
+    private void initTabs()
     {
-        TabHost tabHost = (TabHost)findViewById(R.id.tabHost);
+        tabHost = (TabHost)findViewById(R.id.tabHost);
+        tabHost.setup();
 
+        TabHost.TabSpec spec1=tabHost.newTabSpec("tabArtists");
+        spec1.setContent(R.id.tabArtists);
+        spec1.setIndicator(getString(R.string.artists));
+
+        TabHost.TabSpec spec2=tabHost.newTabSpec("tabTracks");
+        spec2.setIndicator(getString(R.string.tracks));
+        spec2.setContent(R.id.tabTracks);
+
+        TabHost.TabSpec spec3=tabHost.newTabSpec("tabEvents");
+        spec3.setIndicator(getString(R.string.events));
+        spec3.setContent(R.id.tabEvents);
+
+        tabHost.addTab(spec1);
+        tabHost.addTab(spec2);
+        tabHost.addTab(spec3);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
