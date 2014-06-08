@@ -1,0 +1,101 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="nikita.rgr.lastfm.ShowEventActivity"
+    tools:ignore="MergeRootFrame"
+    android:screenOrientation="portrait" >
+
+    <LinearLayout android:id="@+id/thumbnail"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:padding="20dip"
+                  android:layout_alignParentLeft="true"
+                  android:layout_marginRight="5dip">
+
+
+    <com.loopj.android.image.SmartImageView
+        android:layout_width="90dip"
+        android:layout_height="90dip"
+        android:id="@+id/eventMainImage" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Long Text here  for testing purposes"
+        android:id="@+id/eventMainTitle"
+        android:layout_marginTop="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/thumbnail"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/eventDescription"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/addToCalendarButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:textColor="#FFFFFF"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add to calendar"
+        android:id="@+id/addToCalendarButton"
+        android:singleLine="true"
+        android:layout_below="@+id/thumbnail"
+        android:layout_toLeftOf="@+id/eventMainTitle"
+        android:layout_alignParentLeft="true"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/eventArtistsListView"
+        android:layout_below="@+id/eventDescription"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="false"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="location"
+        android:id="@+id/eventMainLocationName"
+        android:layout_below="@+id/eventMainTitle"
+        android:layout_alignLeft="@+id/eventMainTitle"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="30 May 2014"
+        android:id="@+id/eventMainDateTime"
+        android:textStyle="bold|italic"
+        android:layout_below="@+id/eventAddress"
+        android:layout_toRightOf="@+id/thumbnail"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/eventAddress"
+        android:textStyle="italic"
+        android:layout_below="@+id/eventMainLocationName"
+        android:layout_alignLeft="@+id/eventMainLocationName"/>
+</RelativeLayout>

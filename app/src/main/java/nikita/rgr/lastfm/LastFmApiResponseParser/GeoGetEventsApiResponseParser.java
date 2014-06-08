@@ -144,6 +144,10 @@ public class GeoGetEventsApiResponseParser extends LastFmApiResponseParser {
                 {
                     event.Street = xpp.nextText();
                 }
+                else if (tagName.equals("timezone"))
+                {
+                    event.Timezone = xpp.nextText();
+                }
             }
 
             eventType = xpp.next();

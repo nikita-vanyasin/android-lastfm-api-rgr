@@ -21,27 +21,56 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/artistName"
+        android:id="@+id/eventTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/thumbnail"
         android:layout_toRightOf="@+id/thumbnail"
-        android:text="Manowar"
+        android:text="Event title"
         android:textColor="#ffdadada"
         android:typeface="sans"
         android:textSize="15dip"
         android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/trackName"
-        android:layout_width="fill_parent"
+        android:id="@+id/eventLocationName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/artistName"
-        android:textColor="#ffa7a7a7"
-        android:textSize="10dip"
-        android:layout_marginTop="1dip"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:text="4665456" />
+        android:text="Bulldog cafe"
+        android:textColor="#a7a7a7"
+        android:typeface="sans"
+        android:textSize="15dip"
+        android:textStyle="normal"
+        android:layout_below="@+id/eventTitle"
+        android:layout_alignLeft="@+id/eventTitle"
+        android:layout_marginTop="2dip"
+        android:singleLine="true"/>
+
+    <TextView
+        android:id="@+id/eventDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="30 May 2014, 18:00"
+        android:textColor="#a7a7a7"
+        android:typeface="sans"
+        android:textSize="13dip"
+        android:textStyle="bold|italic"
+        android:layout_alignBottom="@+id/thumbnail"
+        android:layout_alignLeft="@+id/eventTitle"/>
+
+    <TextView
+        android:id="@+id/eventCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Yoshkar-Ola"
+        android:textColor="#a7a7a7"
+        android:typeface="sans"
+        android:textSize="13dip"
+        android:textStyle="bold|italic"
+        android:layout_alignBottom="@+id/thumbnail"
+        android:layout_alignParentRight="true"/>
+
+
 
 
 </RelativeLayout>

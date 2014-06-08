@@ -1,6 +1,11 @@
 package nikita.rgr.lastfm.LastFmObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Nikita on 07.06.14.
@@ -9,7 +14,6 @@ public class Event extends LastFmObject {
 
     public String Title;
     public String SmallImageUrl;
-    public String LargeImageUrl;
     public List<String> Artists;
     public String Headliner;
     public String StartDate;
@@ -22,7 +26,24 @@ public class Event extends LastFmObject {
     public String Country;
     public String Street;
 
+    public String Timezone;
 
 
+    public String getAddress()
+    {
+        return Street + (Street.isEmpty() ? "" : ", ") + City;
+    }
+
+    public Date getStartDateTime()
+    {
+        DateFormat df = new SimpleDateFormat("EEE, dd MMM yyyy kk:mm", Locale.ENGLISH);
+        try {
+            return df.parse(StartDate + " " + StartTime);
+        }
+        catch (ParseException e)
+        {
+            throw new RuntimeException("error while parsing datetime", e);
+        }
+    }
 
 }

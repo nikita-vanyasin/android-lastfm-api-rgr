@@ -91,7 +91,8 @@ public class GeoInfo implements LocationListener {
         }
         catch (IOException e)
         {
-            throw new RuntimeException("Error:", e);
+            MyLog.d("Exception while retrieving address: " + e.getMessage());
+            return createFallbackAddress();
         }
 
         return createFallbackAddress();
