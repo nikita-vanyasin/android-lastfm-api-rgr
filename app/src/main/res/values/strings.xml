@@ -7,5 +7,6 @@
     <string name="artists">Artists</string>
     <string name="tracks">Tracks</string>
     <string name="events">Events</string>
+    <string name="loading">Loading...</string>
 
 </resources>

@@ -2,13 +2,20 @@ package nikita.rgr.lastfm;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TabHost;
+
+import java.util.HashMap;
+
+import nikita.rgr.lastfm.ListController.ArtistsListController;
+import nikita.rgr.lastfm.ListController.EventsListController;
+import nikita.rgr.lastfm.ListController.ListController;
+import nikita.rgr.lastfm.ListController.TracksListController;
 
 public class MainActivity extends Activity {
 
     private TabHost tabHost;
+    private HashMap<String, ListController> listControllers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +27,6 @@ public class MainActivity extends Activity {
         }
 
         initTabs();
-
     }
 
     private void initTabs()
@@ -28,41 +34,30 @@ public class MainActivity extends Activity {
         tabHost = (TabHost)findViewById(R.id.tabHost);
         tabHost.setup();
 
-        TabHost.TabSpec spec1=tabHost.newTabSpec("tabArtists");
-        spec1.setContent(R.id.tabArtists);
-        spec1.setIndicator(getString(R.string.artists));
+        listControllers = new HashMap<>();
 
-        TabHost.TabSpec spec2=tabHost.newTabSpec("tabTracks");
-        spec2.setIndicator(getString(R.string.tracks));
-        spec2.setContent(R.id.tabTracks);
+        initTab("tabArtists", R.id.tabArtists, R.string.artists,  new ArtistsListController(this, (ListView)findViewById(R.id.artistsList)));
+        initTab("tabTracks", R.id.tabTracks, R.string.tracks, new TracksListController(this, (ListView)findViewById(R.id.tracksList)));
+        initTab("tabEvents", R.id.tabEvents, R.string.events, new EventsListController(this, (ListView)findViewById(R.id.eventsList)));
 
-        TabHost.TabSpec spec3=tabHost.newTabSpec("tabEvents");
-        spec3.setIndicator(getString(R.string.events));
-        spec3.setContent(R.id.tabEvents);
+        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String id) {
+                listControllers.get(id).show();
+            }
+        });
 
-        tabHost.addTab(spec1);
-        tabHost.addTab(spec2);
-        tabHost.addTab(spec3);
+        listControllers.get(tabHost.getCurrentTabTag()).show();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    private void initTab(String tabId, int tabContentId, int tabTitleTextId, ListController listController)
+    {
+        TabHost.TabSpec spec = tabHost.newTabSpec(tabId);
+        spec.setContent(tabContentId);
+        spec.setIndicator(getString(tabTitleTextId));
+        tabHost.addTab(spec);
 
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        listControllers.put(tabId, listController);
     }
 
 }

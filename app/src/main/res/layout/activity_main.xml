@@ -58,6 +58,14 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:orientation="horizontal">
+
+                    <ListView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/tracksList"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -65,6 +73,14 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:orientation="horizontal">
+
+                    <ListView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/eventsList"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"/>
+
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>
