@@ -1,6 +1,8 @@
 package nikita.rgr.lastfm.LastFmListAdapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,9 @@ import android.widget.TextView;
 
 import com.loopj.android.image.SmartImageView;
 
+import java.net.URI;
+
+import nikita.rgr.lastfm.GeoInfo;
 import nikita.rgr.lastfm.LastFmApiRequestUrlBuilder;
 import nikita.rgr.lastfm.LastFmApiResponseParser.GeoGetTopArtistsApiResponseParser;
 import nikita.rgr.lastfm.LastFmApiResponseParser.LastFmApiResponseParser;
@@ -31,6 +36,8 @@ public class ArtistsLastFmListAdapter extends LastFmListAdapter {
     @Override
     protected void setupRequestUrlBuilderSettings(LastFmApiRequestUrlBuilder builder) {
         builder.setMethod(getContext().getString(R.string.artistsApiMethodName));
+
+        builder.setAdditionalParam("country", GeoInfo.getInstance().getCurrentCountryName());
     }
 
     @Override
@@ -46,13 +53,21 @@ public class ArtistsLastFmListAdapter extends LastFmListAdapter {
             convertView.setTag(new Holder(name, count, imageView));
         }
 
-        Artist artist = (Artist)getItem(position);
+        final Artist artist = (Artist)getItem(position);
 
         Holder h = (Holder)convertView.getTag();
 
         h.Name.setText(artist.Name);
         h.ListenersCount.setText(artist.ListenersCount.toString());
         h.ImageView.setImageUrl(artist.SmallImageUrl);
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(artist.ArtistUrl));
+                getContext().startActivity(browserIntent);
+            }
+        });
 
         return convertView;
     }

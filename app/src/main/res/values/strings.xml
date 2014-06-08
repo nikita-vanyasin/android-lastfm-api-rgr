@@ -10,5 +10,6 @@
     <string name="loading">Loading...</string>
     <string name="Loading">Loading . . .</string>
     <string name="no_more_items">No more Items</string>
+    <string name="alert_enable_services">Please, connect to Internet and enable location service.</string>
 
 </resources>

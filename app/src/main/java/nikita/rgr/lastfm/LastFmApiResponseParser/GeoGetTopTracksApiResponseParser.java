@@ -63,8 +63,6 @@ public class GeoGetTopTracksApiResponseParser extends LastFmApiResponseParser {
             eventType = xpp.next();
         }
 
-        MyLog.d(track.toString());
-
         results.add(track);
     }
 

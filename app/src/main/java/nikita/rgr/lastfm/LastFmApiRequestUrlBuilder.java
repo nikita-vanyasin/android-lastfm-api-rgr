@@ -21,9 +21,12 @@ public class LastFmApiRequestUrlBuilder {
     private Integer limit;
     private String apiKey;
 
+    private HashMap<String, String> additionalParams;
+
     public LastFmApiRequestUrlBuilder(Context context) {
         this.baseUrl = context.getString(R.string.api_base_url);
         this.apiKey = context.getString(R.string.api_key);
+        this.additionalParams = new HashMap<>();
     }
 
     public void setLimit(int limit)
@@ -43,7 +46,7 @@ public class LastFmApiRequestUrlBuilder {
 
     public void setAdditionalParam(String key, String value)
     {
-
+        additionalParams.put(key, value);
     }
 
     public String getUrl()
@@ -55,7 +58,8 @@ public class LastFmApiRequestUrlBuilder {
 
         params.put("method", method);
         params.put("api_key", apiKey);
-        params.put("country", "spain");
+
+        params.putAll(additionalParams);
 
         String res = baseUrl + "?" + buildQueryStringFromParams(params);
         MyLog.d("URL^  :   " + res);

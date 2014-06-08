@@ -5,9 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import nikita.rgr.lastfm.GeoInfo;
 import nikita.rgr.lastfm.LastFmApiRequestUrlBuilder;
 import nikita.rgr.lastfm.LastFmApiResponseParser.GeoGetEventsApiResponseParser;
-import nikita.rgr.lastfm.LastFmApiResponseParser.GeoGetTopArtistsApiResponseParser;
 import nikita.rgr.lastfm.LastFmApiResponseParser.LastFmApiResponseParser;
 import nikita.rgr.lastfm.R;
 
@@ -29,6 +29,9 @@ public class EventsLastFmListAdapter extends LastFmListAdapter {
     @Override
     protected void setupRequestUrlBuilderSettings(LastFmApiRequestUrlBuilder builder) {
         builder.setMethod(getContext().getString(R.string.eventsApiMethodName));
+        builder.setAdditionalParam("long", String.valueOf(GeoInfo.getInstance().getLongitude()));
+        builder.setAdditionalParam("lat", String.valueOf(GeoInfo.getInstance().getLatitude()));
+        builder.setAdditionalParam("country", String.valueOf(GeoInfo.getInstance().getCurrentCountryName()));
     }
 
     @Override

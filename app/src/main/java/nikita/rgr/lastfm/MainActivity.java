@@ -1,9 +1,15 @@
 package nikita.rgr.lastfm;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.widget.ListView;
 import android.widget.TabHost;
+import android.widget.Toast;
 
 import java.util.HashMap;
 
@@ -24,6 +30,22 @@ public class MainActivity extends Activity {
 
         if (savedInstanceState == null) {
           //...
+        }
+
+        GeoInfo.createInstance(this);
+
+        if (!GeoInfo.getInstance().isLocationInfoAvailable())
+        {
+            new AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.alert_enable_services))
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+            return;
         }
 
         initTabs();
