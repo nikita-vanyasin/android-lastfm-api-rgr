@@ -3,6 +3,7 @@ package nikita.rgr.lastfm.LastFmObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -12,21 +13,21 @@ import java.util.Locale;
  */
 public class Event extends LastFmObject {
 
-    public String Title;
-    public String SmallImageUrl;
-    public List<String> Artists;
-    public String Headliner;
-    public String StartDate;
-    public String StartTime;
-    public String Description;
-    public String EventUrl;
+    public String Title = "";
+    public String SmallImageUrl = "";
+    public List<String> Artists = new ArrayList<>();
+    public String Headliner = "";
+    public String StartDate = "";
+    public String StartTime = "";
+    public String Description = "";
+    public String EventUrl = "";
 
-    public String EventLocationName;
-    public String City;
-    public String Country;
-    public String Street;
+    public String EventLocationName = "";
+    public String City = "";
+    public String Country = "";
+    public String Street = "";
 
-    public String Timezone;
+    public String Timezone = "";
 
 
     public String getAddress()

@@ -22,6 +22,6 @@ public class EventsListController extends ListController {
 
     @Override
     protected LastFmListAdapter createListAdapter(MainActivity activity, TextView footer) {
-        return new EventsLastFmListAdapter(activity, 10, footer);
+        return new EventsLastFmListAdapter(activity, 20, footer);
     }
 }

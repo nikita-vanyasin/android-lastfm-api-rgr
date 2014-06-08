@@ -35,7 +35,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
         android:id="@+id/eventDescription"
@@ -45,8 +45,12 @@
         android:layout_alignParentRight="true"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginBottom="5dp"
-        android:textColor="#FFFFFF"/>
+        android:textColor="#FFFFFF"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:textIsSelectable="true"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -57,7 +61,8 @@
         android:singleLine="true"
         android:layout_below="@+id/thumbnail"
         android:layout_toLeftOf="@+id/eventMainTitle"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"
+        android:textSize="13dip"/>
 
     <ListView
         android:layout_width="wrap_content"

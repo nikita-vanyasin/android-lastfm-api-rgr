@@ -12,5 +12,6 @@
     <string name="no_more_items">No more Items</string>
     <string name="alert_enable_services">Please, connect to Internet and enable location service.</string>
     <string name="title_activity_show_event">Event</string>
+    <string name="listeners">Listeners:</string>
 
 </resources>

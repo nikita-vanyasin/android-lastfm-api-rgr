@@ -49,10 +49,23 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textColor="#ffa7a7a7"
-        android:textSize="10dip"
+        android:textSize="13dip"
         android:text="4665456"
-        android:layout_alignBottom="@+id/thumbnail"
-        android:layout_alignLeft="@+id/trackName"/>
+        android:singleLine="true"
+        android:layout_below="@+id/trackArtistName"
+        android:layout_toRightOf="@+id/trackArtistName"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/listeners"
+        android:id="@+id/textView"
+        android:singleLine="true"
+        android:layout_below="@+id/trackArtistName"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:textSize="13dip"
+        android:layout_marginBottom="2dp"/>
 
 
 </RelativeLayout>

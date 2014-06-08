@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -62,6 +64,9 @@ public class ShowEventActivity extends Activity {
         locationName.setText(event.EventLocationName);
         dateTime.setText(event.StartDate + " " + event.StartTime);
         address.setText(event.getAddress());
+        description.setVerticalScrollBarEnabled(true);
+        description.setMovementMethod(new ScrollingMovementMethod());
+        description.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
         description.setText(Html.fromHtml(event.Description));
         imageView.setImageUrl(event.SmallImageUrl);
 
