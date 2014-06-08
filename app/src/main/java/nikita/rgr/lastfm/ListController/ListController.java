@@ -4,9 +4,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import nikita.rgr.lastfm.LastFmListAdapter.ArtistsLastFmListAdapter;
 import nikita.rgr.lastfm.LastFmListAdapter.LastFmListAdapter;
-import nikita.rgr.lastfm.LoadItemsTask;
 import nikita.rgr.lastfm.MainActivity;
 import nikita.rgr.lastfm.R;
 
@@ -34,7 +32,7 @@ public abstract class ListController {
     {
         if (listAdapter.isEmpty())
         {
-            listAdapter.loadNextPage();
+            listAdapter.loadPage();
         }
     }
 

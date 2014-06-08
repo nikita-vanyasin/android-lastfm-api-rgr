@@ -7,13 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.loopj.android.image.SmartImageView;
-
 import nikita.rgr.lastfm.LastFmApiRequestUrlBuilder;
 import nikita.rgr.lastfm.LastFmApiResponseParser.LastFmApiResponseParser;
-import nikita.rgr.lastfm.LastFmObject.Artist;
 import nikita.rgr.lastfm.LastFmObject.LastFmObject;
 import nikita.rgr.lastfm.LoadItemsTask;
+import nikita.rgr.lastfm.MyLog;
 import nikita.rgr.lastfm.R;
 
 /**
@@ -22,26 +20,42 @@ import nikita.rgr.lastfm.R;
 public abstract class LastFmListAdapter extends ArrayAdapter<LastFmObject> {
 
     private boolean hasMoreItems;
-    private final int pageSize;
+    private int currentPage;
     private final TextView footer;
+    private LastFmApiRequestUrlBuilder requestUrlBuilder;
 
     public LastFmListAdapter(Context context, int pageSize, TextView footer) {
         super(context, android.R.layout.two_line_list_item);
-        this.pageSize = pageSize;
         this.footer = footer;
         this.hasMoreItems = true;
+        this.currentPage = 0;
+
+        requestUrlBuilder = new LastFmApiRequestUrlBuilder(context);
+        requestUrlBuilder.setLimit(pageSize);
+
+        setupRequestUrlBuilderSettings(requestUrlBuilder);
     }
 
+    public void setTotalPages(Integer totalPages){
+        if (currentPage >= totalPages)
+        {
+            hasMoreItems = false;
+            footer.setText(getContext().getString(R.string.no_more_items));
+        }
+    }
+
+    abstract protected void setupRequestUrlBuilderSettings(LastFmApiRequestUrlBuilder builder);
 
     abstract protected LastFmApiResponseParser createResponseParser();
 
     private String getApiRequestUrl()
     {
-        LastFmApiRequestUrlBuilder builder = new LastFmApiRequestUrlBuilder();
-        return builder.getUrl();
+        //from: position + 1, to: position + 1 + pageSize
+        requestUrlBuilder.setPage(currentPage);
+        return requestUrlBuilder.getUrl();
     }
 
-    public void loadNextPage()
+    public void loadPage()
     {
         LoadItemsTask t = new LoadItemsTask(getContext(),this, createResponseParser(), getApiRequestUrl());
         t.execute();
@@ -52,43 +66,14 @@ public abstract class LastFmListAdapter extends ArrayAdapter<LastFmObject> {
 
         if (position == getCount() - 1 && hasMoreItems){
 
-            //from: position + 1, to: position + 1 + pageSize
+            currentPage++;
 
-            LoadItemsTask t = new LoadItemsTask(getContext(),this, createResponseParser(), getApiRequestUrl());
-            t.execute();
-            footer.setText("Loading . . .");
+            loadPage();
+            footer.setText(getContext().getString(R.string.Loading));
         }
 
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.artist_list_row, parent, false);
-
-            TextView name = (TextView) convertView.findViewById(R.id.artistName);
-            TextView count = (TextView) convertView.findViewById(R.id.listenersCount);
-            SmartImageView imageView = (SmartImageView) convertView.findViewById(R.id.list_image);
-
-            convertView.setTag(new Holder(name, count, imageView));
-        }
-
-        Artist p = (Artist)getItem(position);
-        Holder h = (Holder) convertView.getTag();
-
-        h.Name.setText(p.Name);
-        h.ListenersCount.setText(p.ListenersCount.toString());
-        h.ImageView.setImageUrl(p.SmallImageUrl);
-
-
-        return convertView;
+        return forgeItemView(convertView, position, parent);
     }
 
-    private static class Holder{
-        public final TextView Name;
-        public final TextView ListenersCount;
-        public final SmartImageView ImageView;
-
-        private Holder(TextView name, TextView count, SmartImageView imageView) {
-            this.Name = name;
-            this.ListenersCount = count;
-            this.ImageView = imageView;
-        }
-    }
+    abstract protected View forgeItemView(View convertView, int position, ViewGroup parent);
 }

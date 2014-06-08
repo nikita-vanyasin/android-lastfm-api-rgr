@@ -10,4 +10,13 @@ public class Artist extends LastFmObject {
     public Integer ListenersCount;
     public String ArtistUrl;
 
+    @Override
+    public String toString() {
+        return "Artist{" +
+                "SmallImageUrl='" + SmallImageUrl + '\'' +
+                ", Name='" + Name + '\'' +
+                ", ListenersCount=" + ListenersCount +
+                ", ArtistUrl='" + ArtistUrl + '\'' +
+                '}';
+    }
 }

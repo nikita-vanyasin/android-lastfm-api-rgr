@@ -22,6 +22,6 @@ public class TracksListController extends ListController {
 
     @Override
     protected LastFmListAdapter createListAdapter(MainActivity activity, TextView footer) {
-        return new TracksLastFmListAdapter(activity, 10, footer);
+        return new TracksLastFmListAdapter(activity, 50, footer);
     }
 }

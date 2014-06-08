@@ -1,5 +1,13 @@
 package nikita.rgr.lastfm;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.util.Pair;
+import android.webkit.URLUtil;
+
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -7,19 +15,30 @@ import java.util.List;
  */
 public class LastFmApiRequestUrlBuilder {
 
+    private String baseUrl;
     private String method;
-    private int page;
-    private int limit;
+    private Integer page;
+    private Integer limit;
     private String apiKey;
 
-    public void setMethod(String apiMethodNames)
-    {
-
+    public LastFmApiRequestUrlBuilder(Context context) {
+        this.baseUrl = context.getString(R.string.api_base_url);
+        this.apiKey = context.getString(R.string.api_key);
     }
 
-    public void setPage(int page)
+    public void setLimit(int limit)
     {
+        this.limit = limit;
+    }
 
+    public void setMethod(String apiMethodName)
+    {
+        method = apiMethodName;
+    }
+
+    public void setPage(Integer page)
+    {
+        this.page = page;
     }
 
     public void setAdditionalParam(String key, String value)
@@ -29,7 +48,38 @@ public class LastFmApiRequestUrlBuilder {
 
     public String getUrl()
     {
-        return "http://ws.audioscrobbler.com/2.0/?method=geo.gettopartists&country=spain&api_key=af854cc7be8dc1c0e3cf08fcb41ef4c6";
+        HashMap<String, String> params = new HashMap<>();
+
+        params.put("page", page.toString());
+        params.put("limit", limit.toString());
+
+        params.put("method", method);
+        params.put("api_key", apiKey);
+        params.put("country", "spain");
+
+        String res = baseUrl + "?" + buildQueryStringFromParams(params);
+        MyLog.d("URL^  :   " + res);
+        return res;
+    }
+
+    private String buildQueryStringFromParams(HashMap<String, String> params)
+    {
+        String result = "";
+        Iterator it = params.entrySet().iterator();
+        while (it.hasNext()) {
+            HashMap.Entry pairs = (HashMap.Entry)it.next();
+
+            result += pairs.getKey() + "=" + pairs.getValue();
+
+            if (it.hasNext())
+            {
+                result += "&";
+            }
+
+            it.remove();
+        }
+
+        return result;
     }
 
 }

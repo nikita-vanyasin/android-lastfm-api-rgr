@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="api_base_url">http://ws.audioscrobbler.com/2.0/</string>
+    <string name="api_key">af854cc7be8dc1c0e3cf08fcb41ef4c6</string>
+    <string name="api_secret">52099f43dcfcfa0e567f06a4826e6479</string>
+    <string name="artistsApiMethodName">geo.gettopartists</string>
+    <string name="tracksApiMethodName">geo.gettoptracks</string>
+    <string name="eventsApiMethodName">geo.getevents</string>
+</resources>

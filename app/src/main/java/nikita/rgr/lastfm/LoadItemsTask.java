@@ -34,14 +34,9 @@ public class LoadItemsTask extends AsyncTask<Void,Void,List<LastFmObject>> {
 
     @Override
     protected final void onPreExecute() {
-        // clearall
-        // show preloader
+
         super.onPreExecute();
-/*        progressDialog = new ProgressDialog(DataLoader.this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-  */  }
+  }
 
     @Override
     protected final void onPostExecute(List<LastFmObject> result) {
@@ -55,8 +50,7 @@ public class LoadItemsTask extends AsyncTask<Void,Void,List<LastFmObject>> {
 
         adapter.notifyDataSetChanged();
 
-
-
+        adapter.setTotalPages(responseParser.getTotalPagesCount());
     }
 
     protected final List<LastFmObject> doInBackground(Void... voids) {
@@ -67,7 +61,7 @@ public class LoadItemsTask extends AsyncTask<Void,Void,List<LastFmObject>> {
         HttpURLConnection urlConnection = getHttpURLConnection();
 
         InputStream inputStream = getInputStreamFromConnection(urlConnection);
-
+MyLog.d("connection established");
         try
         {
             responseParser.parse(inputStream);
