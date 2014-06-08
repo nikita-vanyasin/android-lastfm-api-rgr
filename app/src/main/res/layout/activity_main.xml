@@ -50,7 +50,8 @@
                         android:layout_height="fill_parent"
                         android:id="@+id/artistsList"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:footerDividersEnabled="true" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -64,7 +65,8 @@
                         android:layout_height="fill_parent"
                         android:id="@+id/tracksList"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:footerDividersEnabled="true" />
 
                 </LinearLayout>
 
@@ -79,7 +81,8 @@
                         android:layout_height="fill_parent"
                         android:id="@+id/eventsList"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:footerDividersEnabled="true" />
 
                 </LinearLayout>
             </FrameLayout>

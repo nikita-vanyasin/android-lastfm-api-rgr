@@ -1,6 +1,7 @@
 package nikita.rgr.lastfm;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import java.io.IOException;
@@ -9,21 +10,26 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
 
 import nikita.rgr.lastfm.LastFmApiResponseParser.LastFmApiResponseParser;
+import nikita.rgr.lastfm.LastFmListAdapter.LastFmListAdapter;
+import nikita.rgr.lastfm.LastFmObject.LastFmObject;
 
 
 /**
  * Created by Nikita on 25.05.14.
  */
-public class LoadItemsTask extends AsyncTask<Integer, Integer, Integer> {
+public class LoadItemsTask extends AsyncTask<Void,Void,List<LastFmObject>> {
 
     private LastFmApiResponseParser responseParser;
     private String requestUrl;
+    private LastFmListAdapter adapter;
 
-    public LoadItemsTask(LastFmApiResponseParser parser, String url) {
+    public LoadItemsTask(Context context, LastFmListAdapter adapter, LastFmApiResponseParser parser, String url) {
         responseParser = parser;
         requestUrl = url;
+        this.adapter = adapter;
     }
 
     @Override
@@ -38,18 +44,22 @@ public class LoadItemsTask extends AsyncTask<Integer, Integer, Integer> {
   */  }
 
     @Override
-    protected final void onProgressUpdate(final Integer... progress) {
-        // update progress ( or just do nothing)
-    }
-
-    @Override
-    protected final void onPostExecute(final Integer result) {
+    protected final void onPostExecute(List<LastFmObject> result) {
         // insert items to ent of the list
 
+        super.onPostExecute(result);
+
+        for (LastFmObject p : result){
+            adapter.add(p);
+        }
+
+        adapter.notifyDataSetChanged();
+
+
 
     }
 
-    protected final Integer doInBackground(final Integer... page) {
+    protected final List<LastFmObject> doInBackground(Void... voids) {
         // use repository pattern?? for cache system
         // HttpURLConnection urlConnection = getHttpURLConnection(url);
         // load and parse
@@ -67,9 +77,7 @@ public class LoadItemsTask extends AsyncTask<Integer, Integer, Integer> {
             urlConnection.disconnect();
         }
 
-        responseParser.getResults();
-
-        return 0;
+        return responseParser.getResults();
     }
 
     private void closeInputStream(InputStream inputStream) {

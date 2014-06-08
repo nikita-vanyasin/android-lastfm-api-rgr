@@ -13,21 +13,22 @@
                   android:layout_alignParentLeft="true"
                   android:layout_marginRight="5dip">
 
-        <ImageView
-            android:id="@+id/list_image"
+
+        <com.loopj.android.image.SmartImageView
             android:layout_width="50dip"
-            android:layout_height="50dip"/>
+            android:layout_height="50dip"
+            android:id="@+id/list_image" />
 
     </LinearLayout>
 
     <!-- Title Of Song-->
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/artistName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/thumbnail"
         android:layout_toRightOf="@+id/thumbnail"
-        android:text="Rihanna Love the way lie"
+        android:text="Manowar"
         android:textColor="#ffdadada"
         android:typeface="sans"
         android:textSize="15dip"
@@ -35,15 +36,15 @@
 
     <!-- Artist Name -->
     <TextView
-        android:id="@+id/artist"
+        android:id="@+id/listenersCount"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title"
+        android:layout_below="@+id/artistName"
         android:textColor="#ffa7a7a7"
         android:textSize="10dip"
         android:layout_marginTop="1dip"
         android:layout_toRightOf="@+id/thumbnail"
-        android:text="Just gona stand there and ..." />
+        android:text="4665456" />
 
 
 </RelativeLayout>

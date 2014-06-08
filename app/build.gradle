@@ -1,8 +1,7 @@
 apply plugin: 'android'
-
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.1"
+    buildToolsVersion '19.0.1'
 
     defaultConfig {
         minSdkVersion 14
@@ -22,6 +21,9 @@ android {
         }
     }
 }
-
 dependencies {
+    compile files('libs/android-smart-image-view-1.0.0.jar')
+}
+
+repositories {
 }
