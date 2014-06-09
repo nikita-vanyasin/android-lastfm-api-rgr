@@ -35,16 +35,15 @@
 
     <TextView
         android:id="@+id/trackListenersCount"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#ffa7a7a7"
         android:textSize="13dip"
         android:text="4665456"
         android:textAlignment="center"
-        android:layout_alignTop="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
         android:paddingLeft="10dp"
-        android:layout_marginBottom="6dp"/>
+        android:layout_alignTop="@+id/textView"
+        android:layout_alignParentRight="true"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -52,10 +51,9 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Listeners:"
         android:id="@+id/textView"
-        android:layout_alignBottom="@+id/thumbnail"
-        android:layout_alignLeft="@+id/artistName"
         android:singleLine="true"
-        android:layout_marginBottom="6dp"/>
+        android:layout_alignBottom="@+id/thumbnail"
+        android:layout_toLeftOf="@+id/trackListenersCount"/>
 
 
 </RelativeLayout>

@@ -30,7 +30,8 @@
         android:textColor="#ffdadada"
         android:typeface="sans"
         android:textSize="15dip"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"/>
 
     <TextView
         android:id="@+id/trackArtistName"
@@ -44,16 +45,6 @@
         android:layout_below="@+id/trackName"
         android:layout_alignLeft="@+id/trackName"/>
 
-    <TextView
-        android:id="@+id/trackListenersCount"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#ffa7a7a7"
-        android:textSize="13dip"
-        android:text="4665456"
-        android:singleLine="true"
-        android:layout_below="@+id/trackArtistName"
-        android:layout_toRightOf="@+id/trackArtistName"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -62,10 +53,25 @@
         android:text="@string/listeners"
         android:id="@+id/textView"
         android:singleLine="true"
-        android:layout_below="@+id/trackArtistName"
-        android:layout_toRightOf="@+id/thumbnail"
         android:textSize="13dip"
-        android:layout_marginBottom="2dp"/>
+        android:layout_alignTop="@+id/trackListenersCount"
+        android:layout_toLeftOf="@+id/trackListenersCount"/>
+
+    <TextView
+        android:id="@+id/trackListenersCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffa7a7a7"
+        android:textSize="13dip"
+        android:text="4665456"
+        android:textAlignment="viewStart"
+        android:singleLine="true"
+        android:paddingLeft="10dp"
+        android:autoText="false"
+        android:password="false"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_below="@+id/trackArtistName"
+        android:layout_alignParentRight="true"/>
 
 
 </RelativeLayout>
