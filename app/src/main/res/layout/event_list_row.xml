@@ -3,20 +3,21 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="5dip" >
+                android:padding="5dip">
 
-    <LinearLayout android:id="@+id/thumbnail"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:padding="3dip"
-                  android:layout_alignParentLeft="true"
-                  android:layout_marginRight="5dip">
+    <LinearLayout
+        android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dip"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dip">
 
 
         <com.loopj.android.image.SmartImageView
             android:layout_width="50dip"
             android:layout_height="50dip"
-            android:id="@+id/event_image" />
+            android:id="@+id/event_image"/>
 
     </LinearLayout>
 
@@ -30,7 +31,8 @@
         android:textColor="#ffdadada"
         android:typeface="sans"
         android:textSize="15dip"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:singleLine="true"/>
 
     <TextView
         android:id="@+id/eventLocationName"
@@ -69,8 +71,6 @@
         android:textStyle="bold|italic"
         android:layout_alignBottom="@+id/thumbnail"
         android:layout_alignParentRight="true"/>
-
-
 
 
 </RelativeLayout>

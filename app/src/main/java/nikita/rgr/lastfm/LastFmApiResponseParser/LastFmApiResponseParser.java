@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nikita.rgr.lastfm.LastFmObject.LastFmObject;
-import nikita.rgr.lastfm.MyLog;
 
 /**
  * Created by Nikita on 25.05.14.
@@ -22,65 +21,59 @@ abstract public class LastFmApiResponseParser {
     protected List<LastFmObject> results;
 
     abstract protected String getResultElementTagName();
+
     abstract protected void parseResultElement(XmlPullParser xpp) throws IOException, XmlPullParserException;
+
     abstract protected String getElementsRootNode();
 
     public List<LastFmObject> getResults() {
         return results;
     }
 
-    public Integer getTotalPagesCount()
-    {
+    public Integer getTotalPagesCount() {
         return totalPagesCount;
     }
 
-    public void parse(InputStream response)
-    {
+    public void parse(InputStream response) {
         results = new ArrayList<>();
-        try
-        {
+        try {
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             factory.setNamespaceAware(true);
             XmlPullParser xpp = factory.newPullParser();
-            xpp.setInput( response, null );
+            xpp.setInput(response, null);
 
             readLfmTag(xpp);
 
-        } catch (XmlPullParserException e) {
-            throw new RuntimeException("", e);
         }
-        catch (IOException e)
-        {
-            throw new RuntimeException("", e);
+        catch (XmlPullParserException e) {
+            throw new RuntimeException("Error while parsing xml", e);
+        }
+        catch (IOException e) {
+            throw new RuntimeException("Error reading stream", e);
         }
     }
 
     protected String parseImageUrl(XmlPullParser xpp, String requiredSize) throws XmlPullParserException, IOException {
         String sizeAttributeValue = "";
-        for (int i = 0; i < xpp.getAttributeCount(); ++i)
-        {
+        for (int i = 0; i < xpp.getAttributeCount(); ++i) {
             String attributeName = xpp.getAttributeName(i);
-            if (attributeName.equals("size"))
-            {
+            if (attributeName.equals("size")) {
                 sizeAttributeValue = xpp.getAttributeValue(i);
             }
         }
 
-        if (sizeAttributeValue.equals(requiredSize))
-        {
+        if (sizeAttributeValue.equals(requiredSize)) {
             return xpp.nextText();
         }
 
         return "";
     }
 
-    private void readLfmTag(XmlPullParser xpp) throws IOException, XmlPullParserException
-    {
+    private void readLfmTag(XmlPullParser xpp) throws IOException, XmlPullParserException {
         int eventType = xpp.getEventType();
         while (eventType != XmlPullParser.END_DOCUMENT) {
             Boolean isStartTag = eventType == XmlPullParser.START_TAG;
-            if (isStartTag)
-            {
+            if (isStartTag) {
                 String tagName = xpp.getName();
                 String searchTagName = getResultElementTagName();
                 Boolean nameMatchesToResultElementName = tagName.equals(searchTagName);
@@ -88,20 +81,16 @@ abstract public class LastFmApiResponseParser {
                     parseResultElement(xpp);
                 }
 
-                if (tagName.equals(getElementsRootNode()))
-                {
+                if (tagName.equals(getElementsRootNode())) {
                     String totalPagesAttributeValue = "";
-                    for (int i = 0; i < xpp.getAttributeCount(); ++i)
-                    {
+                    for (int i = 0; i < xpp.getAttributeCount(); ++i) {
                         String attributeName = xpp.getAttributeName(i);
-                        if (attributeName.equals("totalPages"))
-                        {
+                        if (attributeName.equals("totalPages")) {
                             totalPagesAttributeValue = xpp.getAttributeValue(i);
                         }
                     }
 
-                    if (totalPagesAttributeValue.isEmpty())
-                    {
+                    if (totalPagesAttributeValue.isEmpty()) {
                         throw new RuntimeException("totalPages attribute not found.");
                     }
 

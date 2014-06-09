@@ -13,13 +13,12 @@ import nikita.rgr.lastfm.R;
  */
 public abstract class ListController {
 
-    private ListView listView;
     private LastFmListAdapter listAdapter;
 
     protected ListController(final MainActivity activity, ListView listView) {
-        this.listView = listView;
 
-        FrameLayout footerLayout = (FrameLayout)activity.getLayoutInflater().inflate(R.layout.list_footer,null);
+
+        FrameLayout footerLayout = (FrameLayout) activity.getLayoutInflater().inflate(R.layout.list_footer, null);
         TextView footer = (TextView) footerLayout.findViewById(R.id.footer);
 
         listView.addFooterView(footerLayout);
@@ -28,10 +27,8 @@ public abstract class ListController {
         listView.setAdapter(listAdapter);
     }
 
-    public void show()
-    {
-        if (listAdapter.isEmpty())
-        {
+    public void show() {
+        if (listAdapter.isEmpty()) {
             listAdapter.loadPage();
         }
     }

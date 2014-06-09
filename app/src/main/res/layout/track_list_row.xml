@@ -3,20 +3,21 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="5dip" >
+                android:padding="5dip">
 
-    <LinearLayout android:id="@+id/thumbnail"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:padding="3dip"
-                  android:layout_alignParentLeft="true"
-                  android:layout_marginRight="5dip">
+    <LinearLayout
+        android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dip"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dip">
 
 
         <com.loopj.android.image.SmartImageView
             android:layout_width="50dip"
             android:layout_height="50dip"
-            android:id="@+id/track_image" />
+            android:id="@+id/track_image"/>
 
     </LinearLayout>
 
@@ -67,8 +68,6 @@
         android:textAlignment="viewStart"
         android:singleLine="true"
         android:paddingLeft="10dp"
-        android:autoText="false"
-        android:password="false"
         android:layout_alignWithParentIfMissing="false"
         android:layout_below="@+id/trackArtistName"
         android:layout_alignParentRight="true"/>

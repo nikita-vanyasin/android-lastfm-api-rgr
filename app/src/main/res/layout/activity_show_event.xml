@@ -1,24 +1,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="nikita.rgr.lastfm.ShowEventActivity"
-    tools:ignore="MergeRootFrame"
-    android:screenOrientation="portrait" >
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="nikita.rgr.lastfm.ShowEventActivity"
+                tools:ignore="MergeRootFrame"
+                android:screenOrientation="portrait">
 
-    <LinearLayout android:id="@+id/thumbnail"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:padding="20dip"
-                  android:layout_alignParentLeft="true"
-                  android:layout_marginRight="5dip">
+    <LinearLayout
+        android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dip"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dip">
 
 
-    <com.loopj.android.image.SmartImageView
-        android:layout_width="90dip"
-        android:layout_height="90dip"
-        android:id="@+id/eventMainImage" />
+        <com.loopj.android.image.SmartImageView
+            android:layout_width="90dip"
+            android:layout_height="90dip"
+            android:id="@+id/eventMainImage"/>
 
     </LinearLayout>
 
@@ -39,7 +40,6 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
         android:id="@+id/eventDescription"
-        android:layout_marginTop="10dp"
         android:layout_below="@+id/addToCalendarButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
@@ -50,13 +50,14 @@
         android:paddingTop="5dp"
         android:paddingRight="5dp"
         android:paddingBottom="5dp"
-        android:textIsSelectable="true"/>
+        android:textIsSelectable="true"
+        android:layout_marginTop="15dp"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add to calendar"
+        android:text="@string/add_to_calendar"
         android:id="@+id/addToCalendarButton"
         android:singleLine="true"
         android:layout_below="@+id/thumbnail"

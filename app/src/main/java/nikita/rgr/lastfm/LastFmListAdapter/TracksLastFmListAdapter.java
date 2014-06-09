@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.loopj.android.image.SmartImageView;
 
 import nikita.rgr.lastfm.GeoInfo;
-import nikita.rgr.lastfm.LastFmApiRequestUrlBuilder;
+import nikita.rgr.lastfm.LastFmApiRequest;
 import nikita.rgr.lastfm.LastFmApiResponseParser.GeoGetTopTracksApiResponseParser;
 import nikita.rgr.lastfm.LastFmApiResponseParser.LastFmApiResponseParser;
 import nikita.rgr.lastfm.LastFmObject.Track;
@@ -32,7 +32,7 @@ public class TracksLastFmListAdapter extends LastFmListAdapter {
     }
 
     @Override
-    protected void setupRequestUrlBuilderSettings(LastFmApiRequestUrlBuilder builder) {
+    protected void setupRequestUrlBuilderSettings(LastFmApiRequest builder) {
         builder.setMethod(getContext().getString(R.string.tracksApiMethodName));
         builder.setAdditionalParam("country", GeoInfo.getInstance().getCurrentCountryName());
     }
@@ -50,7 +50,7 @@ public class TracksLastFmListAdapter extends LastFmListAdapter {
             convertView.setTag(new Holder(name, artistName, count, imageView));
         }
 
-        final Track track = (Track)getItem(position);
+        final Track track = (Track) getItem(position);
         Holder h = (Holder) convertView.getTag();
 
         h.Name.setText(track.Name);
@@ -69,7 +69,7 @@ public class TracksLastFmListAdapter extends LastFmListAdapter {
         return convertView;
     }
 
-    private static class Holder{
+    private static class Holder {
         public final TextView Name;
         public final TextView TrackArtistName;
         public final TextView ListenersCount;

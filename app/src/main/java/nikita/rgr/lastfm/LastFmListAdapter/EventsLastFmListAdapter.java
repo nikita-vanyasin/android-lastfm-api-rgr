@@ -2,7 +2,6 @@ package nikita.rgr.lastfm.LastFmListAdapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +11,10 @@ import com.loopj.android.image.SmartImageView;
 
 import nikita.rgr.lastfm.BundleKey;
 import nikita.rgr.lastfm.GeoInfo;
-import nikita.rgr.lastfm.LastFmApiRequestUrlBuilder;
+import nikita.rgr.lastfm.LastFmApiRequest;
 import nikita.rgr.lastfm.LastFmApiResponseParser.GeoGetEventsApiResponseParser;
 import nikita.rgr.lastfm.LastFmApiResponseParser.LastFmApiResponseParser;
 import nikita.rgr.lastfm.LastFmObject.Event;
-import nikita.rgr.lastfm.LastFmObject.Track;
 import nikita.rgr.lastfm.R;
 import nikita.rgr.lastfm.ShowEventActivity;
 
@@ -36,7 +34,7 @@ public class EventsLastFmListAdapter extends LastFmListAdapter {
     }
 
     @Override
-    protected void setupRequestUrlBuilderSettings(LastFmApiRequestUrlBuilder builder) {
+    protected void setupRequestUrlBuilderSettings(LastFmApiRequest builder) {
         builder.setMethod(getContext().getString(R.string.eventsApiMethodName));
         builder.setAdditionalParam("long", String.valueOf(GeoInfo.getInstance().getLongitude()));
         builder.setAdditionalParam("lat", String.valueOf(GeoInfo.getInstance().getLatitude()));
@@ -57,7 +55,7 @@ public class EventsLastFmListAdapter extends LastFmListAdapter {
             convertView.setTag(new Holder(title, locationName, dateTime, city, imageView));
         }
 
-        final Event event = (Event)getItem(position);
+        final Event event = (Event) getItem(position);
         Holder h = (Holder) convertView.getTag();
 
         h.Title.setText(event.Title);
@@ -80,7 +78,7 @@ public class EventsLastFmListAdapter extends LastFmListAdapter {
         return convertView;
     }
 
-    private static class Holder{
+    private static class Holder {
         public final TextView Title;
         public final TextView LocationName;
         public final TextView DateTime;

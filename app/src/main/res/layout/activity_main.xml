@@ -1,11 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="nikita.rgr.lastfm.MainActivity"
-    tools:ignore="MergeRootFrame">
-
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="nikita.rgr.lastfm.MainActivity"
+                tools:ignore="MergeRootFrame">
 
 
     <TabHost
@@ -43,7 +42,8 @@
                     android:id="@+id/tabArtists"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
 
                     <ListView
                         android:layout_width="fill_parent"
@@ -51,14 +51,15 @@
                         android:id="@+id/artistsList"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:footerDividersEnabled="true" />
+                        android:footerDividersEnabled="true"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/tabTracks"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
 
                     <ListView
                         android:layout_width="fill_parent"
@@ -66,7 +67,7 @@
                         android:id="@+id/tracksList"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:footerDividersEnabled="true" />
+                        android:footerDividersEnabled="true"/>
 
                 </LinearLayout>
 
@@ -74,7 +75,8 @@
                     android:id="@+id/tabEvents"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
 
                     <ListView
                         android:layout_width="fill_parent"
@@ -82,7 +84,7 @@
                         android:id="@+id/eventsList"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:footerDividersEnabled="true" />
+                        android:footerDividersEnabled="true"/>
 
                 </LinearLayout>
             </FrameLayout>

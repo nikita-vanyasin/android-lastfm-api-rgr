@@ -1,19 +1,18 @@
 package nikita.rgr.lastfm;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.util.Pair;
-import android.webkit.URLUtil;
+import android.util.Xml;
 
-import java.net.URI;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.DigestInputStream;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by Nikita on 07.06.14.
  */
-public class LastFmApiRequestUrlBuilder {
+public class LastFmApiRequest {
 
     private String baseUrl;
     private String method;
@@ -23,34 +22,55 @@ public class LastFmApiRequestUrlBuilder {
 
     private HashMap<String, String> additionalParams;
 
-    public LastFmApiRequestUrlBuilder(Context context) {
+    public LastFmApiRequest(Context context) {
         this.baseUrl = context.getString(R.string.api_base_url);
         this.apiKey = context.getString(R.string.api_key);
         this.additionalParams = new HashMap<>();
     }
 
-    public void setLimit(int limit)
-    {
+    public void setLimit(int limit) {
         this.limit = limit;
     }
 
-    public void setMethod(String apiMethodName)
-    {
+    public void setMethod(String apiMethodName) {
         method = apiMethodName;
     }
 
-    public void setPage(Integer page)
-    {
+    public void setPage(Integer page) {
         this.page = page;
     }
 
-    public void setAdditionalParam(String key, String value)
-    {
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setAdditionalParam(String key, String value) {
         additionalParams.put(key, value);
     }
 
-    public String getUrl()
-    {
+    public URL getUrl() {
+        String res = getUrlString();
+
+        MyLog.d("URL:   " + res);
+
+        try {
+            return new URL(res);
+        }
+        catch (MalformedURLException e) {
+            throw new RuntimeException("error preparing url: ", e);
+        }
+    }
+
+    public String getHash() {
+        String requestUrl = getUrlString();
+        return Encrypt.md5(requestUrl);
+    }
+
+    private String getUrlString() {
         HashMap<String, String> params = new HashMap<>();
 
         params.put("page", page.toString());
@@ -61,26 +81,20 @@ public class LastFmApiRequestUrlBuilder {
 
         params.putAll(additionalParams);
 
-        String res = baseUrl + "?" + buildQueryStringFromParams(params);
-        MyLog.d("URL^  :   " + res);
-        return res;
+        return baseUrl + "?" + buildQueryStringFromParams(params);
     }
 
-    private String buildQueryStringFromParams(HashMap<String, String> params)
-    {
+    private String buildQueryStringFromParams(HashMap<String, String> params) {
         String result = "";
         Iterator it = params.entrySet().iterator();
         while (it.hasNext()) {
-            HashMap.Entry pairs = (HashMap.Entry)it.next();
+            HashMap.Entry pairs = (HashMap.Entry) it.next();
 
             result += pairs.getKey() + "=" + pairs.getValue();
 
-            if (it.hasNext())
-            {
+            if (it.hasNext()) {
                 result += "&";
             }
-
-            it.remove();
         }
 
         return result;

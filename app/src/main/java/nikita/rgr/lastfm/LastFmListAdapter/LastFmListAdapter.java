@@ -1,17 +1,15 @@
 package nikita.rgr.lastfm.LastFmListAdapter;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import nikita.rgr.lastfm.LastFmApiRequestUrlBuilder;
+import nikita.rgr.lastfm.LastFmApiRequest;
 import nikita.rgr.lastfm.LastFmApiResponseParser.LastFmApiResponseParser;
 import nikita.rgr.lastfm.LastFmObject.LastFmObject;
 import nikita.rgr.lastfm.LoadItemsTask;
-import nikita.rgr.lastfm.MyLog;
 import nikita.rgr.lastfm.R;
 
 /**
@@ -22,49 +20,45 @@ public abstract class LastFmListAdapter extends ArrayAdapter<LastFmObject> {
     private boolean hasMoreItems;
     private int currentPage;
     private final TextView footer;
-    private LastFmApiRequestUrlBuilder requestUrlBuilder;
+    private int pageSize;
 
     public LastFmListAdapter(Context context, int pageSize, TextView footer) {
         super(context, android.R.layout.two_line_list_item);
         this.footer = footer;
         this.hasMoreItems = true;
+        this.pageSize = pageSize;
         this.currentPage = 0;
-
-        requestUrlBuilder = new LastFmApiRequestUrlBuilder(context);
-        requestUrlBuilder.setLimit(pageSize);
-
-        setupRequestUrlBuilderSettings(requestUrlBuilder);
     }
 
-    public void setTotalPages(Integer totalPages){
-        if (currentPage >= totalPages)
-        {
+    public void setTotalPages(Integer totalPages) {
+        if (currentPage >= totalPages) {
             hasMoreItems = false;
             footer.setText(getContext().getString(R.string.no_more_items));
         }
     }
 
-    abstract protected void setupRequestUrlBuilderSettings(LastFmApiRequestUrlBuilder builder);
+    abstract protected void setupRequestUrlBuilderSettings(LastFmApiRequest builder);
 
     abstract protected LastFmApiResponseParser createResponseParser();
 
-    private String getApiRequestUrl()
-    {
-        //from: position + 1, to: position + 1 + pageSize
-        requestUrlBuilder.setPage(currentPage);
-        return requestUrlBuilder.getUrl();
+    private LastFmApiRequest getApiRequest() {
+        LastFmApiRequest apiRequest = new LastFmApiRequest(getContext());
+        setupRequestUrlBuilderSettings(apiRequest);
+        apiRequest.setPage(currentPage);
+        apiRequest.setLimit(pageSize);
+
+        return apiRequest;
     }
 
-    public void loadPage()
-    {
-        LoadItemsTask t = new LoadItemsTask(getContext(),this, createResponseParser(), getApiRequestUrl());
+    public void loadPage() {
+        LoadItemsTask t = new LoadItemsTask(this, createResponseParser(), getApiRequest());
         t.execute();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if (position == getCount() - 1 && hasMoreItems){
+        if (position == getCount() - 1 && hasMoreItems) {
 
             currentPage++;
 

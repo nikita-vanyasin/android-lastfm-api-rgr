@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,8 +39,10 @@ public class ShowEventActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_event);
 
+        lockOrientationChange();
+
         if (savedInstanceState == null) {
-           //...
+            //...
         }
 
         Bundle bundle = getIntent().getExtras();
@@ -49,8 +53,7 @@ public class ShowEventActivity extends Activity {
         }
     }
 
-    private void renderEvent(final Event event)
-    {
+    private void renderEvent(final Event event) {
         TextView title = (TextView) findViewById(R.id.eventMainTitle);
         TextView locationName = (TextView) findViewById(R.id.eventMainLocationName);
         TextView dateTime = (TextView) findViewById(R.id.eventMainDateTime);
@@ -89,8 +92,7 @@ public class ShowEventActivity extends Activity {
         });
     }
 
-    private void putEventToCalendar(Event event)
-    {
+    private void putEventToCalendar(Event event) {
         Intent intent = new Intent(Intent.ACTION_EDIT);
         intent.setType("vnd.android.cursor.item/event");
 
@@ -104,5 +106,15 @@ public class ShowEventActivity extends Activity {
         intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, dateTime.getTime());
 
         startActivity(intent);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        lockOrientationChange();
+    }
+
+    private void lockOrientationChange() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 }

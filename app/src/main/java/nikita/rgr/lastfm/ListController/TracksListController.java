@@ -15,6 +15,8 @@ import nikita.rgr.lastfm.MainActivity;
  */
 public class TracksListController extends ListController {
 
+    public static final int PAGE_SIZE = 50;
+
     public TracksListController(MainActivity activity, ListView listVew) {
         super(activity, listVew);
     }
@@ -22,6 +24,6 @@ public class TracksListController extends ListController {
 
     @Override
     protected LastFmListAdapter createListAdapter(MainActivity activity, TextView footer) {
-        return new TracksLastFmListAdapter(activity, 50, footer);
+        return new TracksLastFmListAdapter(activity, PAGE_SIZE, footer);
     }
 }

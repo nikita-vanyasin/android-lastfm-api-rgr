@@ -1,14 +1,11 @@
 package nikita.rgr.lastfm.LastFmApiResponseParser;
 
-import android.util.Log;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 
 import nikita.rgr.lastfm.LastFmObject.Artist;
-import nikita.rgr.lastfm.MyLog;
 
 
 /**
@@ -34,26 +31,17 @@ public class GeoGetTopArtistsApiResponseParser extends LastFmApiResponseParser {
         int eventType = xpp.getEventType();
         while (!((eventType == XmlPullParser.END_TAG) && (xpp.getName().equals(getResultElementTagName())))) {
 
-            if (eventType == XmlPullParser.START_TAG)
-            {
+            if (eventType == XmlPullParser.START_TAG) {
                 String tagName = xpp.getName();
-                if (tagName.equals("name"))
-                {
+                if (tagName.equals("name")) {
                     artist.Name = xpp.nextText();
-                }
-                else if (tagName.equals("listeners"))
-                {
+                } else if (tagName.equals("listeners")) {
                     artist.ListenersCount = Integer.parseInt(xpp.nextText());
-                }
-                else if (tagName.equals("url"))
-                {
+                } else if (tagName.equals("url")) {
                     artist.ArtistUrl = xpp.nextText();
-                }
-                else if (tagName.equals("image"))
-                {
+                } else if (tagName.equals("image")) {
                     String url = parseImageUrl(xpp, "small");
-                    if (!url.isEmpty())
-                    {
+                    if (!url.isEmpty()) {
                         artist.SmallImageUrl = url;
                     }
                 }

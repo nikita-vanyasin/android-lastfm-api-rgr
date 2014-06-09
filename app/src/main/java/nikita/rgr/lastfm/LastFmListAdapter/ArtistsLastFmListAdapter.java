@@ -10,10 +10,8 @@ import android.widget.TextView;
 
 import com.loopj.android.image.SmartImageView;
 
-import java.net.URI;
-
 import nikita.rgr.lastfm.GeoInfo;
-import nikita.rgr.lastfm.LastFmApiRequestUrlBuilder;
+import nikita.rgr.lastfm.LastFmApiRequest;
 import nikita.rgr.lastfm.LastFmApiResponseParser.GeoGetTopArtistsApiResponseParser;
 import nikita.rgr.lastfm.LastFmApiResponseParser.LastFmApiResponseParser;
 import nikita.rgr.lastfm.LastFmObject.Artist;
@@ -34,15 +32,14 @@ public class ArtistsLastFmListAdapter extends LastFmListAdapter {
     }
 
     @Override
-    protected void setupRequestUrlBuilderSettings(LastFmApiRequestUrlBuilder builder) {
+    protected void setupRequestUrlBuilderSettings(LastFmApiRequest builder) {
         builder.setMethod(getContext().getString(R.string.artistsApiMethodName));
 
         builder.setAdditionalParam("country", GeoInfo.getInstance().getCurrentCountryName());
     }
 
     @Override
-    protected View forgeItemView(View convertView, int position, ViewGroup parent)
-    {
+    protected View forgeItemView(View convertView, int position, ViewGroup parent) {
         if (convertView == null) {
 
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.artist_list_row, parent, false);
@@ -53,9 +50,9 @@ public class ArtistsLastFmListAdapter extends LastFmListAdapter {
             convertView.setTag(new Holder(name, count, imageView));
         }
 
-        final Artist artist = (Artist)getItem(position);
+        final Artist artist = (Artist) getItem(position);
 
-        Holder h = (Holder)convertView.getTag();
+        Holder h = (Holder) convertView.getTag();
 
         h.Name.setText(artist.Name);
         h.ListenersCount.setText(artist.ListenersCount.toString());
@@ -72,7 +69,7 @@ public class ArtistsLastFmListAdapter extends LastFmListAdapter {
         return convertView;
     }
 
-    private static class Holder{
+    private static class Holder {
         public final TextView Name;
         public final TextView ListenersCount;
         public final SmartImageView ImageView;

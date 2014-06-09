@@ -32,42 +32,25 @@ public class GeoGetEventsApiResponseParser extends LastFmApiResponseParser {
         int eventType = xpp.getEventType();
         while (!((eventType == XmlPullParser.END_TAG) && (xpp.getName().equals(getResultElementTagName())))) {
 
-            if (eventType == XmlPullParser.START_TAG)
-            {
+            if (eventType == XmlPullParser.START_TAG) {
                 String tagName = xpp.getName();
-                if (tagName.equals("title"))
-                {
+                if (tagName.equals("title")) {
                     event.Title = xpp.nextText();
-                }
-                else if (tagName.equals("startDate"))
-                {
+                } else if (tagName.equals("startDate")) {
                     event.StartDate = xpp.nextText();
-                }
-                else if (tagName.equals("startTime"))
-                {
+                } else if (tagName.equals("startTime")) {
                     event.StartTime = xpp.nextText();
-                }
-                else if (tagName.equals("description"))
-                {
+                } else if (tagName.equals("description")) {
                     event.Description = xpp.nextText();
-                }
-                else if (tagName.equals("url"))
-                {
+                } else if (tagName.equals("url")) {
                     event.EventUrl = xpp.nextText();
-                }
-                else if (tagName.equals("artists"))
-                {
+                } else if (tagName.equals("artists")) {
                     parseArtistsTag(event, xpp);
-                }
-                else if (tagName.equals("venue"))
-                {
+                } else if (tagName.equals("venue")) {
                     parseVenueTag(event, xpp);
-                }
-                else if (tagName.equals("image"))
-                {
+                } else if (tagName.equals("image")) {
                     String url = parseImageUrl(xpp, "medium");
-                    if (!url.isEmpty())
-                    {
+                    if (!url.isEmpty()) {
                         event.SmallImageUrl = url;
                     }
                 }
@@ -79,21 +62,17 @@ public class GeoGetEventsApiResponseParser extends LastFmApiResponseParser {
         results.add(event);
     }
 
-    private void parseArtistsTag(Event event, XmlPullParser xpp) throws XmlPullParserException, IOException
-    {
+    private void parseArtistsTag(Event event, XmlPullParser xpp) throws XmlPullParserException, IOException {
         List<String> artists = new ArrayList<>();
         String headliner = "";
 
         int eventType = xpp.getEventType();
-        while (!((eventType == XmlPullParser.END_TAG) && (xpp.getName().equals("artists"))))
-        {
-            if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("artist"))
-            {
+        while (!((eventType == XmlPullParser.END_TAG) && (xpp.getName().equals("artists")))) {
+            if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("artist")) {
                 artists.add(xpp.nextText());
             }
 
-            if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("headliner"))
-            {
+            if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("headliner")) {
                 headliner = xpp.nextText();
             }
 
@@ -104,18 +83,14 @@ public class GeoGetEventsApiResponseParser extends LastFmApiResponseParser {
         event.Headliner = headliner;
     }
 
-    private void parseVenueTag(Event event, XmlPullParser xpp) throws XmlPullParserException, IOException
-    {
+    private void parseVenueTag(Event event, XmlPullParser xpp) throws XmlPullParserException, IOException {
         String locationName = "";
 
         int eventType = xpp.getEventType();
         while (!((eventType == XmlPullParser.END_TAG) && (xpp.getName().equals("venue")))) {
-            if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("name"))
-            {
+            if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("name")) {
                 locationName = xpp.nextText();
-            }
-            else if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("location"))
-            {
+            } else if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("location")) {
                 parseLocationTag(event, xpp);
             }
 
@@ -125,27 +100,18 @@ public class GeoGetEventsApiResponseParser extends LastFmApiResponseParser {
         event.EventLocationName = locationName;
     }
 
-    private void parseLocationTag(Event event, XmlPullParser xpp) throws XmlPullParserException, IOException
-    {
+    private void parseLocationTag(Event event, XmlPullParser xpp) throws XmlPullParserException, IOException {
         int eventType = xpp.getEventType();
         while (!((eventType == XmlPullParser.END_TAG) && (xpp.getName().equals("location")))) {
-            if (eventType == XmlPullParser.START_TAG)
-            {
+            if (eventType == XmlPullParser.START_TAG) {
                 String tagName = xpp.getName();
-                if (tagName.equals("city"))
-                {
+                if (tagName.equals("city")) {
                     event.City = xpp.nextText();
-                }
-                else if (tagName.equals("country"))
-                {
+                } else if (tagName.equals("country")) {
                     event.Country = xpp.nextText();
-                }
-                else if (tagName.equals("street"))
-                {
+                } else if (tagName.equals("street")) {
                     event.Street = xpp.nextText();
-                }
-                else if (tagName.equals("timezone"))
-                {
+                } else if (tagName.equals("timezone")) {
                     event.Timezone = xpp.nextText();
                 }
             }

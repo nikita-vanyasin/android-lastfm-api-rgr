@@ -8,6 +8,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import junit.framework.Assert;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -25,42 +27,40 @@ public class GeoInfo implements LocationListener {
 
     private static GeoInfo instance;
 
-    private Context context;
+    private final Context context;
     private Location location;
     private LocationManager locationManager;
 
     public static GeoInfo getInstance() {
-
+        Assert.assertNotNull(instance);
         return instance;
     }
 
     public static void createInstance(Context context) {
-        instance = new GeoInfo(context);
+        if (instance == null) {
+            instance = new GeoInfo(context);
+        }
     }
 
     private GeoInfo(Context context) {
         this.context = context;
 
-        locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
-        if (isLocationInfoAvailable())
-        {
+        if (isLocationInfoAvailable()) {
             init();
         }
     }
 
-    public double getLatitude()
-    {
+    public double getLatitude() {
         return location.getLatitude();
     }
 
-    public double getLongitude()
-    {
+    public double getLongitude() {
         return location.getLongitude();
     }
 
-    public Boolean isLocationInfoAvailable()
-    {
+    public Boolean isLocationInfoAvailable() {
         return isGpsEnabled() || isNetworkEnabled();
     }
 
@@ -72,25 +72,21 @@ public class GeoInfo implements LocationListener {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
-    public String getCurrentCountryName()
-    {
+    public String getCurrentCountryName() {
         Address address = getCurrentAddress();
         return address.getCountryName();
     }
 
-    private Address getCurrentAddress()
-    {
+    private Address getCurrentAddress() {
         final Locale locale = Locale.ENGLISH;
         try {
-            Geocoder gcd = new Geocoder(context,locale);
+            Geocoder gcd = new Geocoder(context, locale);
             List<Address> addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            if (addresses.size() > 0)
-            {
+            if (addresses.size() > 0) {
                 return addresses.get(0);
             }
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             MyLog.d("Exception while retrieving address: " + e.getMessage());
             return createFallbackAddress();
         }
@@ -98,8 +94,7 @@ public class GeoInfo implements LocationListener {
         return createFallbackAddress();
     }
 
-    private void init()
-    {
+    private void init() {
         requestLocationUpdates();
 
         if (isNetworkEnabled()) {
@@ -115,10 +110,10 @@ public class GeoInfo implements LocationListener {
 
     private void requestLocationUpdates() {
         locationManager.requestLocationUpdates(
-            LocationManager.GPS_PROVIDER,
-            MIN_TIME_BW_UPDATES,
-            MIN_DISTANCE_CHANGE_FOR_UPDATES,
-            this
+                LocationManager.GPS_PROVIDER,
+                MIN_TIME_BW_UPDATES,
+                MIN_DISTANCE_CHANGE_FOR_UPDATES,
+                this
         );
     }
 
@@ -142,8 +137,7 @@ public class GeoInfo implements LocationListener {
 
     }
 
-    private Address createFallbackAddress()
-    {
+    private Address createFallbackAddress() {
         Address address = new Address(Locale.ENGLISH);
         address.setCountryName("russia");
         return address;

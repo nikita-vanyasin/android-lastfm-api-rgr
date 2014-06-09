@@ -6,7 +6,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 
 import nikita.rgr.lastfm.LastFmObject.Track;
-import nikita.rgr.lastfm.MyLog;
 
 /**
  * Created by Nikita on 08.06.14.
@@ -31,31 +30,20 @@ public class GeoGetTopTracksApiResponseParser extends LastFmApiResponseParser {
         int eventType = xpp.getEventType();
         while (!((eventType == XmlPullParser.END_TAG) && (xpp.getName().equals(getResultElementTagName())))) {
 
-            if (eventType == XmlPullParser.START_TAG)
-            {
+            if (eventType == XmlPullParser.START_TAG) {
                 String tagName = xpp.getName();
-                if (tagName.equals("name"))
-                {
+                if (tagName.equals("name")) {
                     track.Name = xpp.nextText();
-                }
-                else if (tagName.equals("listeners"))
-                {
+                } else if (tagName.equals("listeners")) {
                     track.ListenersCount = xpp.nextText();
-                }
-                else if (tagName.equals("url"))
-                {
+                } else if (tagName.equals("url")) {
                     track.TrackUrl = xpp.nextText();
-                }
-                else if (tagName.equals("image"))
-                {
+                } else if (tagName.equals("image")) {
                     String url = parseImageUrl(xpp, "small");
-                    if (!url.isEmpty())
-                    {
+                    if (!url.isEmpty()) {
                         track.SmallImageUrl = url;
                     }
-                }
-                else if (tagName.equals("artist"))
-                {
+                } else if (tagName.equals("artist")) {
                     track.ArtistName = readArtistName(xpp);
                 }
             }
@@ -66,13 +54,10 @@ public class GeoGetTopTracksApiResponseParser extends LastFmApiResponseParser {
         results.add(track);
     }
 
-    private String readArtistName(XmlPullParser xpp) throws XmlPullParserException, IOException
-    {
+    private String readArtistName(XmlPullParser xpp) throws XmlPullParserException, IOException {
         int eventType = xpp.getEventType();
-        while (!((eventType == XmlPullParser.END_TAG) && (xpp.getName().equals("artist"))))
-        {
-            if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("name"))
-            {
+        while (!((eventType == XmlPullParser.END_TAG) && (xpp.getName().equals("artist")))) {
+            if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("name")) {
                 return xpp.nextText();
             }
 
