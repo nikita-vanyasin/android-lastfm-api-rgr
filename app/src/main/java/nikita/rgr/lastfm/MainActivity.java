@@ -37,8 +37,7 @@ public class MainActivity extends Activity {
         GeoInfo.createInstance(this);
         LastFmObjectsRepository.createInstance(this);
 
-        if (!GeoInfo.getInstance().isLocationInfoAvailable())
-        {
+        if (!GeoInfo.getInstance().isLocationInfoAvailable()) {
             showLocationUnavailableAlert();
             return;
         }

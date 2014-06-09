@@ -47,8 +47,7 @@ public class ShowEventActivity extends Activity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            Event event = (Event) bundle.get(BundleKey.EVENT);
-
+            Event event = bundle.getParcelable(BundleKey.EVENT);
             renderEvent(event);
         }
     }

@@ -69,7 +69,7 @@ public class Event extends LastFmObject implements android.os.Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.Title);
         dest.writeString(this.SmallImageUrl);
-        dest.writeList(this.Artists);
+        dest.writeStringList(this.Artists);
         dest.writeString(this.Headliner);
         dest.writeString(this.StartDate);
         dest.writeString(this.StartTime);
@@ -88,7 +88,6 @@ public class Event extends LastFmObject implements android.os.Parcelable {
     private Event(Parcel in) {
         this.Title = in.readString();
         this.SmallImageUrl = in.readString();
-        this.Artists = new ArrayList<>();
         in.readStringList(this.Artists);
         this.Headliner = in.readString();
         this.StartDate = in.readString();

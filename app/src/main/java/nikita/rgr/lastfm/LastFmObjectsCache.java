@@ -6,8 +6,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
+
+import junit.framework.Assert;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -31,6 +34,7 @@ public class LastFmObjectsCache {
 
     private static final String KEY_OBJECTS = "objects";
     private static final String KEY_EXPIRATION_DATE = "expire_date";
+    private static final String KEY_OBJECT_CLASS = "class";
 
     private final Context context;
     private final Gson gson;
@@ -45,40 +49,28 @@ public class LastFmObjectsCache {
         String data = readFile(getCacheFile(key));
 
         JsonObject object = gson.fromJson(data, JsonObject.class);
-        JsonElement valuesElement = object.get(KEY_OBJECTS);
-
-        Type token = new TypeToken<List<LastFmObject>>() {
-        }.getType();
-
-        return gson.fromJson(valuesElement, token);
-
-/*
-        MyLog.d("data:" + data);
+        String className = gson.fromJson(object.get(KEY_OBJECT_CLASS), String.class);
+        JsonArray array = object.getAsJsonArray(KEY_OBJECTS);
+        ArrayList<LastFmObject> results = new ArrayList<>();
 
         try
         {
-            JSONObject obj = new JSONObject(data);
-            JSONArray arr = obj.getJSONArray(KEY_OBJECTS);
-
-
-
-            ArrayList<LastFmObject> result = new ArrayList<>();
-            for (int i = 0; i < arr.length(); ++i)
+            for (int i = 0; i < array.size(); ++i)
             {
-                result.add((LastFmObject)arr.get(i));
+                results.add((LastFmObject)gson.fromJson(array.get(i), Class.forName(className)));
             }
-
-            return result;
         }
-        catch (JSONException e)
+        catch (ClassNotFoundException e)
         {
-            throw new RuntimeException("Exception while parsing json: " + e.getMessage());
-        }*/
+            throw new RuntimeException("error while deserializing cache", e);
+        }
+
+        return results;
+
     }
 
     public boolean has(String key) {
-        return false;
-        //return !isExpiredCacheFile(getCacheFile(key));
+        return !isExpiredCacheFile(getCacheFile(key));
     }
 
     private boolean isExpiredCacheFile(File file) {
@@ -88,62 +80,41 @@ public class LastFmObjectsCache {
             return true;
         }
 
-        JsonObject object = gson.fromJson(data, JsonObject.class);
-        JsonElement valuesElement = object.get(KEY_EXPIRATION_DATE);
-
-        long objExpirationTimeStamp = gson.fromJson(valuesElement, long.class);
-        long currentTimeStamp = new Date().getTime();
-
-        return (objExpirationTimeStamp <= currentTimeStamp);
-
-/*
         try
         {
-            JSONObject obj = new JSONObject(data);
-            long objExpirationTimeStamp = obj.getLong(KEY_EXPIRATION_DATE);
+            JsonObject object = gson.fromJson(data, JsonObject.class);
+            JsonElement valuesElement = object.get(KEY_EXPIRATION_DATE);
+
+            long objExpirationTimeStamp = gson.fromJson(valuesElement, long.class);
             long currentTimeStamp = new Date().getTime();
 
             return (objExpirationTimeStamp <= currentTimeStamp);
         }
-        catch (JSONException e)
+        catch (JsonSyntaxException e)
         {
             return true;
-        }*/
+        }
     }
 
-    public void set(String key, List<LastFmObject> value, Date expirationDate) {
+    public void set(String key, List<LastFmObject> values, Date expirationDate) {
+
+        Assert.assertTrue(values.size() > 0);
+
         JsonObject object = new JsonObject();
 
         object.addProperty(KEY_EXPIRATION_DATE, expirationDate.getTime());
-        JsonElement valuesTree = gson.toJsonTree(value);
+        object.addProperty(KEY_OBJECT_CLASS, values.get(0).getClass().getName());
 
+        JsonArray array = new JsonArray();
+        for (LastFmObject value : values)
+        {
+            JsonElement valueTree = gson.toJsonTree(value);
+            array.add(valueTree);
+        }
 
-        object.add(KEY_OBJECTS, valuesTree);
+        object.add(KEY_OBJECTS, array);
+
         writeFile(key, gson.toJson(object));
-
-
-        /*
-        JSONObject json = new JSONObject();
-        try
-        {
-            json.put(KEY_EXPIRATION_DATE, expirationDate.getTime());
-
-            JSONArray jsonArray = new JSONArray();
-            for (LastFmObject object : value) {
-
-                jsonArray.put(object);
-            }
-
-            json.put(KEY_OBJECTS, jsonArray);
-
-        }
-        catch (JSONException e)
-        {
-            MyLog.d("Exception while caching: " + e.getMessage());
-            return;
-        }
-
-        writeFile(key, json.toString());*/
     }
 
     private void cleanExpiredCache() {
@@ -151,13 +122,13 @@ public class LastFmObjectsCache {
         File files[] = cacheDir.listFiles();
 
         for (File file : files) {
-            MyLog.d("file in cache dir: " + file.getName());
             if (file.isDirectory()) {
                 continue;
             }
 
             Boolean isExpired = isExpiredCacheFile(file);
             if (isExpired) {
+                MyLog.d("clearing not valid cache: " + file.getName());
                 file.delete();
             }
         }

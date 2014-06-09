@@ -41,7 +41,10 @@ public class LastFmObjectsRepository {
         }
 
         LastFmApiResponse response = apiClient.makeRequest(request, apiResponseParser);
-        cache.set(key, response.Objects, response.ExpirationDate);
+        if (!response.Objects.isEmpty())
+        {
+            cache.set(key, response.Objects, response.ExpirationDate);
+        }
         return response.Objects;
     }
 }
