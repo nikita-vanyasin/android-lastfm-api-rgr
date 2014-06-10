@@ -32,9 +32,9 @@ public class TracksLastFmListAdapter extends LastFmListAdapter {
     }
 
     @Override
-    protected void setupRequestUrlBuilderSettings(LastFmApiRequest builder) {
-        builder.setMethod(getContext().getString(R.string.tracksApiMethodName));
-        builder.setAdditionalParam("country", GeoInfo.getInstance().getCurrentCountryName());
+    protected void setupRequestUrlBuilderSettings(LastFmApiRequest apiRequest) {
+        apiRequest.setMethod(getContext().getString(R.string.tracksApiMethodName));
+        apiRequest.setAdditionalParam("country", GeoInfo.getInstance().getCurrentCountryName());
     }
 
     @Override

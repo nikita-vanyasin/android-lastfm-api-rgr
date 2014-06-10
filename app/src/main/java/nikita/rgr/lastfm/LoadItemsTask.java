@@ -1,14 +1,8 @@
 package nikita.rgr.lastfm;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 import nikita.rgr.lastfm.LastFmApiResponseParser.LastFmApiResponseParser;
@@ -35,14 +29,22 @@ public class LoadItemsTask extends AsyncTask<Void, Void, List<LastFmObject>> {
     protected final void onPostExecute(List<LastFmObject> result) {
         super.onPostExecute(result);
 
-        adapter.addAll(result);
+        for (LastFmObject p : result) {
+            adapter.add(p);
+        }
 
         adapter.notifyDataSetChanged();
-
-        //  adapter.setTotalPages(responseParser.getTotalPagesCount());
     }
 
     protected final List<LastFmObject> doInBackground(Void... voids) {
+       /* try
+        {*/
         return LastFmObjectsRepository.getInstance().getObjects(request, responseParser);
+     /*   }
+        catch (RuntimeException e)
+        {
+            // show error to user!
+            return new ArrayList<>();
+        }*/
     }
 }

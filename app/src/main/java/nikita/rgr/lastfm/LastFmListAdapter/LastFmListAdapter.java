@@ -27,7 +27,7 @@ public abstract class LastFmListAdapter extends ArrayAdapter<LastFmObject> {
         this.footer = footer;
         this.hasMoreItems = true;
         this.pageSize = pageSize;
-        this.currentPage = 0;
+        this.currentPage = 1;
     }
 
     public void setTotalPages(Integer totalPages) {
@@ -37,7 +37,7 @@ public abstract class LastFmListAdapter extends ArrayAdapter<LastFmObject> {
         }
     }
 
-    abstract protected void setupRequestUrlBuilderSettings(LastFmApiRequest builder);
+    abstract protected void setupRequestUrlBuilderSettings(LastFmApiRequest apiRequest);
 
     abstract protected LastFmApiResponseParser createResponseParser();
 

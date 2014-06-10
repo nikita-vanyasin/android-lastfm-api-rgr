@@ -34,11 +34,11 @@ public class EventsLastFmListAdapter extends LastFmListAdapter {
     }
 
     @Override
-    protected void setupRequestUrlBuilderSettings(LastFmApiRequest builder) {
-        builder.setMethod(getContext().getString(R.string.eventsApiMethodName));
-        builder.setAdditionalParam("long", String.valueOf(GeoInfo.getInstance().getLongitude()));
-        builder.setAdditionalParam("lat", String.valueOf(GeoInfo.getInstance().getLatitude()));
-        builder.setAdditionalParam("country", String.valueOf(GeoInfo.getInstance().getCurrentCountryName()));
+    protected void setupRequestUrlBuilderSettings(LastFmApiRequest apiRequest) {
+        apiRequest.setMethod(getContext().getString(R.string.eventsApiMethodName));
+        apiRequest.setAdditionalParam("long", String.valueOf(GeoInfo.getInstance().getLongitude()));
+        apiRequest.setAdditionalParam("lat", String.valueOf(GeoInfo.getInstance().getLatitude()));
+        apiRequest.setAdditionalParam("country", String.valueOf(GeoInfo.getInstance().getCurrentCountryName()));
     }
 
     @Override

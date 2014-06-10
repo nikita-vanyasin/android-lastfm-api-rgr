@@ -19,10 +19,12 @@ public class LastFmApiRequest {
     private Integer page;
     private Integer limit;
     private String apiKey;
+    private final Context context;
 
     private HashMap<String, String> additionalParams;
 
     public LastFmApiRequest(Context context) {
+        this.context = context;
         this.baseUrl = context.getString(R.string.api_base_url);
         this.apiKey = context.getString(R.string.api_key);
         this.additionalParams = new HashMap<>();
@@ -61,7 +63,7 @@ public class LastFmApiRequest {
             return new URL(res);
         }
         catch (MalformedURLException e) {
-            throw new RuntimeException("error preparing url: ", e);
+            throw new RuntimeException(context.getString(R.string.error_preparing_url), e);
         }
     }
 

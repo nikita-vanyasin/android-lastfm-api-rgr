@@ -15,12 +15,12 @@ import junit.framework.Assert;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,16 +53,13 @@ public class LastFmObjectsCache {
         JsonArray array = object.getAsJsonArray(KEY_OBJECTS);
         ArrayList<LastFmObject> results = new ArrayList<>();
 
-        try
-        {
-            for (int i = 0; i < array.size(); ++i)
-            {
-                results.add((LastFmObject)gson.fromJson(array.get(i), Class.forName(className)));
+        try {
+            for (int i = 0; i < array.size(); ++i) {
+                results.add((LastFmObject) gson.fromJson(array.get(i), Class.forName(className)));
             }
         }
-        catch (ClassNotFoundException e)
-        {
-            throw new RuntimeException("error while deserializing cache", e);
+        catch (ClassNotFoundException e) {
+            throw new RuntimeException(context.getString(R.string.error_while_deserializing_cache), e);
         }
 
         return results;
@@ -70,6 +67,7 @@ public class LastFmObjectsCache {
     }
 
     public boolean has(String key) {
+        MyLog.d("checking key " + key);
         return !isExpiredCacheFile(getCacheFile(key));
     }
 
@@ -80,8 +78,7 @@ public class LastFmObjectsCache {
             return true;
         }
 
-        try
-        {
+        try {
             JsonObject object = gson.fromJson(data, JsonObject.class);
             JsonElement valuesElement = object.get(KEY_EXPIRATION_DATE);
 
@@ -90,8 +87,7 @@ public class LastFmObjectsCache {
 
             return (objExpirationTimeStamp <= currentTimeStamp);
         }
-        catch (JsonSyntaxException e)
-        {
+        catch (JsonSyntaxException e) {
             return true;
         }
     }
@@ -106,8 +102,7 @@ public class LastFmObjectsCache {
         object.addProperty(KEY_OBJECT_CLASS, values.get(0).getClass().getName());
 
         JsonArray array = new JsonArray();
-        for (LastFmObject value : values)
-        {
+        for (LastFmObject value : values) {
             JsonElement valueTree = gson.toJsonTree(value);
             array.add(valueTree);
         }
@@ -135,14 +130,35 @@ public class LastFmObjectsCache {
     }
 
     private void writeFile(String cacheKey, String data) {
+        File cacheFile;
+        OutputStreamWriter outputStreamWriter;
+
+        cacheFile = new File(context.getCacheDir(), cacheKey);
+
         try {
-            File cacheFile = new File(context.getCacheDir(), cacheKey);
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(cacheFile));
+            outputStreamWriter = new OutputStreamWriter(new FileOutputStream(cacheFile));
+        }
+        catch (FileNotFoundException e) {
+            MyLog.d(e.getMessage());
+            return;
+        }
+
+        try {
+            outputStreamWriter = new OutputStreamWriter(new FileOutputStream(cacheFile));
             outputStreamWriter.write(data);
-            outputStreamWriter.close();
         }
         catch (IOException e) {
-            throw new RuntimeException("error writing file", e);
+            throw new RuntimeException(context.getString(R.string.error_while_writing_cache), e);
+        }
+        finally {
+            if (outputStreamWriter != null) {
+                try {
+                    outputStreamWriter.close();
+                }
+                catch (IOException e) {
+
+                }
+            }
         }
     }
 
@@ -154,12 +170,26 @@ public class LastFmObjectsCache {
         FileInputStream fin;
         try {
             fin = new FileInputStream(cacheFile);
-            String result = convertStreamToString(fin);
-            fin.close();
-            return result;
+        }
+        catch (FileNotFoundException e) {
+            return "";
+        }
+
+        try {
+            fin = new FileInputStream(cacheFile);
+            return convertStreamToString(fin);
         }
         catch (IOException e) {
-            throw new RuntimeException("error while reading file", e);
+            throw new RuntimeException(context.getString(R.string.error_while_reading_cache), e);
+        }
+        finally {
+            if (fin != null) {
+                try {
+                    fin.close();
+                }
+                catch (Exception e) {
+                }
+            }
         }
     }
 
@@ -171,10 +201,14 @@ public class LastFmObjectsCache {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
         String line;
-        while ((line = reader.readLine()) != null) {
-            sb.append(line).append("\n");
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append("\n");
+            }
         }
-        reader.close();
+        finally {
+            reader.close();
+        }
         return sb.toString();
     }
 }

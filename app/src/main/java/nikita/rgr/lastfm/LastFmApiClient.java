@@ -42,7 +42,7 @@ class LastFmApiClient {
             inputStream.close();
         }
         catch (IOException e) {
-            throw new RuntimeException("", e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -51,7 +51,7 @@ class LastFmApiClient {
             return urlConnection.getInputStream();
         }
         catch (IOException e) {
-            throw new RuntimeException("", e);
+            throw new RuntimeException(e);
         }
     }
 

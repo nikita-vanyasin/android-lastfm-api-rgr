@@ -79,7 +79,7 @@ public class ShowEventActivity extends Activity {
             }
         });
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, event.Artists);
+        EventArtistsListAdapter adapter = new EventArtistsListAdapter(this, event.Artists, event.Headliner);
         artistsListView.setAdapter(adapter);
 
         imageView.setOnClickListener(new View.OnClickListener() {

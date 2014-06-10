@@ -35,14 +35,16 @@ public class LastFmObjectsRepository {
     }
 
     public List<LastFmObject> getObjects(LastFmApiRequest request, LastFmApiResponseParser apiResponseParser) {
+
+        MyLog.d("requesting " + request.getUrl());
+
         String key = request.getHash();
         if (cache.has(key)) {
             return cache.get(key);
         }
 
         LastFmApiResponse response = apiClient.makeRequest(request, apiResponseParser);
-        if (!response.Objects.isEmpty())
-        {
+        if (!response.Objects.isEmpty()) {
             cache.set(key, response.Objects, response.ExpirationDate);
         }
         return response.Objects;

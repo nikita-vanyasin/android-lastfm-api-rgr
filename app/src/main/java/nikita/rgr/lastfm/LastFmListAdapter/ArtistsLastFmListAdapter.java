@@ -32,10 +32,10 @@ public class ArtistsLastFmListAdapter extends LastFmListAdapter {
     }
 
     @Override
-    protected void setupRequestUrlBuilderSettings(LastFmApiRequest builder) {
-        builder.setMethod(getContext().getString(R.string.artistsApiMethodName));
+    protected void setupRequestUrlBuilderSettings(LastFmApiRequest apiRequest) {
+        apiRequest.setMethod(getContext().getString(R.string.artistsApiMethodName));
 
-        builder.setAdditionalParam("country", GeoInfo.getInstance().getCurrentCountryName());
+        apiRequest.setAdditionalParam("country", GeoInfo.getInstance().getCurrentCountryName());
     }
 
     @Override

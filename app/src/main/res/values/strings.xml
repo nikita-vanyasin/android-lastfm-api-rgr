@@ -13,5 +13,9 @@
     <string name="listeners">Listeners:</string>
     <string name="add_to_calendar">Add to calendar</string>
     <string name="listenertext">Listeners:</string>
+    <string name="error_preparing_url">error preparing url: </string>
+    <string name="error_while_deserializing_cache">error while deserializing cache</string>
+    <string name="error_while_reading_cache">error while reading file</string>
+    <string name="error_while_writing_cache">error writing file</string>
 
 </resources>
